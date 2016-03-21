@@ -30573,10 +30573,19 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');;//Defino el módulo "moviedb"
-angular.module("moviedb",[]);;//En el módulo moviedb, defino el controlador
+angular.module("moviedb",[]);;angular.module("moviedb")
+    .controller("AppController",["$scope",function($scope){
+        $scope.model = {
+            title: ""
+        }
+        //Scope event listeners
+        $scope.$on("onMenuChange",function(evt,data){
+            $scope.model.title = data;
+        });
+    }]);;//En el módulo moviedb, defino el controlador
 angular.module("moviedb")
     .controller("MenuController", ["$scope", function ($scope) {
-    //scope init
+    //Scope init
     $scope.model = {
         selectedItem: "movies"
     };
@@ -30591,4 +30600,14 @@ angular.module("moviedb")
             return "";
         }
     }
+    //Scope Watchers
+    $scope.$watch("model.selectedItem",function(newValue,oldValue){
+        //Emitimos un evento para que se entere AppController
+        //de que ha cambiado la opción del menú seleccionada
+        $scope.$emit("onMenuChange",newValue);
+    });
+}]);;angular.module("moviedb")
+    .controller("MoviesListController",["$scope",function($scope){
+    $scope.name = "Joseba";
+    
 }]);

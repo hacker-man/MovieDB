@@ -1,7 +1,7 @@
 //En el módulo moviedb, defino el controlador
 angular.module("moviedb")
     .controller("MenuController", ["$scope", function ($scope) {
-    //scope init
+    //Scope init
     $scope.model = {
         selectedItem: "movies"
     };
@@ -16,4 +16,10 @@ angular.module("moviedb")
             return "";
         }
     }
+    //Scope Watchers
+    $scope.$watch("model.selectedItem",function(newValue,oldValue){
+        //Emitimos un evento para que se entere AppController
+        //de que ha cambiado la opción del menú seleccionada
+        $scope.$emit("onMenuChange",newValue);
+    });
 }]);
