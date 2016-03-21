@@ -1,0 +1,26 @@
+{
+  "name": "moviedb",
+  "version": "1.0.0",
+  "description": "\"# MovieDB\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hacker-man/MovieDB.git"
+  },
+  "author": "Lautaro German",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hacker-man/MovieDB/issues"
+  },
+  "homepage": "https://github.com/hacker-man/MovieDB#readme",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^1.0.0",
+    "grunt-contrib-less": "^1.2.0",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}
