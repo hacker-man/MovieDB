@@ -31650,10 +31650,34 @@ angular.module("moviedb")
         });
 }]);
 ;angular.module("moviedb")
-    .controller("MoviesListController", ["$scope", function ($scope) {
+    .controller("MoviesListController", ["$scope", "MovieService", "$log", function ($scope, MovieService, $log) {
         //scope init:
-        $scope.uiState = 'ideal';
-        $scope.model = [
+        $scope.model = [];
+        //Scope watchers:
+       
+        //Controller start:
+        $scope.uiState = 'loading';
+        MovieService.getMovies().then(
+            //Promesa resuelta:
+            function (data) {
+                $log.log("SUCCESS", data);
+                $scope.model = data;
+                if ($scope.model.length == 0)
+                    $scope.uiState = 'blank'
+                else {
+                    $scope.uiState = 'ideal'
+
+                }
+            },
+            //Promesa rechazada:
+            function (data) {
+                $log.error("Error", data);
+                $scope.uiState = 'error';
+            }
+        );
+    }]);
+;angular.module("moviedb").service("MovieService", ["$q","$timeout",function ($q,$timeout) {
+     var movies = [
             {
                 "title": "Deadpool",
                 "poster_url": "https://image.tmdb.org/t/p/w185/inVq3FRqcYIRl2la8iZikYYxFNR.jpg",
@@ -31685,12 +31709,21 @@ angular.module("moviedb")
                 "release_date": "2016-02-12"
             }
         ];
-        //Scope watchers:
-        $scope.$watch("model",function(newValue,oldValue){
-            if(newValue.length==0){
-                $scope.uiState = 'blank';
+    this.getMovies = function () {
+        //Creamos el objeto diferido
+        var deferred = $q.defer();
+        // asíncronia
+        $timeout(function(){
+            if(Math.round(Math.random()*10)%2==0){
+                //resolvemos la promesa
+                deferred.resolve(movies);
             }else{
-                $scope.uiState = 'ideal';
+                deferred.reject({error: "Forbidden"});
             }
-        });
+            
+        },500);
+        //devolvemos la promesa del objeto diferido
+        return deferred.promise;
+       
+    };
 }]);

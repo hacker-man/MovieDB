@@ -1,9 +1,15 @@
 <div ng-controller="MoviesListController">
     <h1>Movies List</h1>
 
-    <button ng-click="model=[]">Delete All</button>
-    <div class="jumbotron" ng-show = "uiState=='blank'">
+    <div class="jumbotron" ng-show="uiState=='blank'">
         <p class="lead">No data here</p>
+    </div>
+    <div class="aler alert-danger" ng-show="uiState == 'error'">
+        Error while loading data
+    </div>
+    <div class="progress" ng-show="uiState == 'loading'">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 45%">
+        </div>
     </div>
     <table class="table table-striped" ng-show="uiState=='ideal'">
         <thead>
