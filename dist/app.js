@@ -31595,9 +31595,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 angular.module("moviedb", ['ngRoute'])
     .config(["$routeProvider", function ($routeProvider) {
         $routeProvider.when('/movies', {
-            templateUrl: 'views/SeriesList.html'
+            templateUrl: 'views/MoviesList.html'
         }).when('/series', {
-            templateUrl: 'views/PeopleList.html'
+            templateUrl: 'views/SeriesList.html'
+        }).when('/people',{
+             templateUrl: 'views/PeopleList.html'
         }).when('/',{
             redirectTo: '/movies'
         }).otherwise({
@@ -31606,26 +31608,33 @@ angular.module("moviedb", ['ngRoute'])
     }]
 );
 ;angular.module("moviedb")
-    .controller("AppController",["$scope",function($scope){
+    .controller("AppController",["$scope","$location",function($scope,$location){
+        //Controller properties:
+        var controller = this;
+        controller.titles = {
+            "/movies": "Movies List",
+            "/series": "Series List",
+            "/people": "People List"
+        }
         $scope.model = {
             title: ""
         }
         //Scope event listeners
-        $scope.$on("onMenuChange",function(evt,data){
-            $scope.model.title = data;
+        $scope.$on("$locationChangeSuccess",function(evt,currentRoute){
+            //console.log("$locationChangeSuccess",$location.path());
+            //Se indexa titles con un string
+            $scope.model.title = controller.titles[$location.path()] || "404 Not Found";
         });
     }]);
 ;//En el módulo moviedb, defino el controlador
 angular.module("moviedb")
-    .controller("MenuController", ["$scope", function ($scope) {
+    .controller("MenuController", ["$scope","$location", function ($scope,$location) {
     //Scope init
     $scope.model = {
         selectedItem: "movies"
     };
     //Scope methods
-    $scope.setSelectedItem = function(item){
-        $scope.model.selectedItem = item;
-    }
+    
     $scope.getClassForItem = function(item){
         if($scope.model.selectedItem == item){
             return "active";
@@ -31634,14 +31643,54 @@ angular.module("moviedb")
         }
     }
     //Scope Watchers
-    $scope.$watch("model.selectedItem",function(newValue,oldValue){
-        //Emitimos un evento para que se entere AppController
-        //de que ha cambiado la opción del menú seleccionada
-        $scope.$emit("onMenuChange",newValue);
-    });
+    $scope.$on("$locationChangeSuccess",function(evt,currentRoute){
+            //console.log("$locationChangeSuccess",$location.path());
+            //Se indexa titles con un string
+            $scope.model.selectedItem = $location.path();
+        });
 }]);
 ;angular.module("moviedb")
-    .controller("MoviesListController",["$scope",function($scope){
-    $scope.name = "Joseba";
-    
+    .controller("MoviesListController", ["$scope", function ($scope) {
+        //scope init:
+        $scope.uiState = 'ideal';
+        $scope.model = [
+            {
+                "title": "Deadpool",
+                "poster_url": "https://image.tmdb.org/t/p/w185/inVq3FRqcYIRl2la8iZikYYxFNR.jpg",
+                "rating": 7.2,
+                "release_date": "2016-02-19"
+            },
+            {
+                "title": "The Hunger Games: Mockingjay - Part 2",
+                "poster_url": "https://image.tmdb.org/t/p/w185/nN4cEJMHJHbJBsp3vvvhtNWLGqg.jpg",
+                "rating": 6.8,
+                "release_date": "2015-11-27"
+            },
+            {
+                "title": "Batman v Superman: Dawn of Justice",
+                "poster_url": "https://image.tmdb.org/t/p/w185/6bCplVkhowCjTHXWv49UjRPn0eK.jpg",
+                "rating": 5.1,
+                "release_date": "2016-03-23"
+            },
+            {
+                "title": "Mad Max: Fury Road",
+                "poster_url": "https://image.tmdb.org/t/p/w185/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+                "rating": 7.4,
+                "release_date": "2015-05-15"
+            },
+            {
+                "title": "Zootopia",
+                "poster_url": "https://image.tmdb.org/t/p/w185/sM33SANp9z6rXW8Itn7NnG1GOEs.jpg",
+                "rating": 7.4,
+                "release_date": "2016-02-12"
+            }
+        ];
+        //Scope watchers:
+        $scope.$watch("model",function(newValue,oldValue){
+            if(newValue.length==0){
+                $scope.uiState = 'blank';
+            }else{
+                $scope.uiState = 'ideal';
+            }
+        });
 }]);

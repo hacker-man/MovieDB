@@ -2,9 +2,11 @@
 angular.module("moviedb", ['ngRoute'])
     .config(["$routeProvider", function ($routeProvider) {
         $routeProvider.when('/movies', {
-            templateUrl: 'views/SeriesList.html'
+            templateUrl: 'views/MoviesList.html'
         }).when('/series', {
-            templateUrl: 'views/PeopleList.html'
+            templateUrl: 'views/SeriesList.html'
+        }).when('/people',{
+             templateUrl: 'views/PeopleList.html'
         }).when('/',{
             redirectTo: '/movies'
         }).otherwise({

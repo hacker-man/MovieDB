@@ -1,14 +1,12 @@
 //En el módulo moviedb, defino el controlador
 angular.module("moviedb")
-    .controller("MenuController", ["$scope", function ($scope) {
+    .controller("MenuController", ["$scope","$location", function ($scope,$location) {
     //Scope init
     $scope.model = {
         selectedItem: "movies"
     };
     //Scope methods
-    $scope.setSelectedItem = function(item){
-        $scope.model.selectedItem = item;
-    }
+    
     $scope.getClassForItem = function(item){
         if($scope.model.selectedItem == item){
             return "active";
@@ -17,9 +15,9 @@ angular.module("moviedb")
         }
     }
     //Scope Watchers
-    $scope.$watch("model.selectedItem",function(newValue,oldValue){
-        //Emitimos un evento para que se entere AppController
-        //de que ha cambiado la opción del menú seleccionada
-        $scope.$emit("onMenuChange",newValue);
-    });
+    $scope.$on("$locationChangeSuccess",function(evt,currentRoute){
+            //console.log("$locationChangeSuccess",$location.path());
+            //Se indexa titles con un string
+            $scope.model.selectedItem = $location.path();
+        });
 }]);
