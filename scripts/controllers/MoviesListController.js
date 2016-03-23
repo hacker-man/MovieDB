@@ -1,7 +1,8 @@
 angular.module("moviedb")
-    .controller("MoviesListController", ["$scope", "MovieService", "$log", function ($scope, MovieService, $log) {
+    .controller("MoviesListController", ["$scope", "MovieService", "$log","paths", function ($scope, MovieService, $log,paths) {
         //scope init:
         $scope.model = [];
+        
         //Scope watchers:
        
         //Controller start:
