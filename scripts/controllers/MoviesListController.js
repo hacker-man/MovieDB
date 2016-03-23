@@ -8,9 +8,9 @@ angular.module("moviedb")
         $scope.uiState = 'loading';
         MovieService.getMovies().then(
             //Promesa resuelta:
-            function (response) {
-                $log.log("SUCCESS", response.data);
-                $scope.model = response.data;
+            function (data) {
+                $log.log("SUCCESS", data);
+                $scope.model = data;
                 if ($scope.model.length == 0)
                     $scope.uiState = 'blank'
                 else {
@@ -19,8 +19,8 @@ angular.module("moviedb")
                 }
             },
             //Promesa rechazada:
-            function (response) {
-                $log.error("Error", response);
+            function (data) {
+                $log.error("Error", data);
                 $scope.uiState = 'error';
             }
         );
