@@ -1,8 +1,10 @@
 //Defino el módulo "moviedb"
-angular.module("moviedb", ['ngRoute'])
+angular.module("moviedb", ['ngRoute',"URL"])
     .config(["$routeProvider","paths", function ($routeProvider,paths) {
         $routeProvider.when(paths.movies, {
             templateUrl: 'views/MoviesList.html'
+		}).when(paths.movieDetail,{
+			templateUrl: 'views/MovieDetail.html'
         }).when(paths.series, {
             templateUrl: 'views/SeriesList.html'
         }).when(paths.people,{
@@ -13,4 +15,4 @@ angular.module("moviedb", ['ngRoute'])
             templateUrl: 'views/404.html'
         })
     }]
-);
+); 
