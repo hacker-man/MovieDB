@@ -36192,13 +36192,13 @@ angular.module("moviedb")
         });
 }]);
 ;angular.module("moviedb").controller("MovieDetailController",
-    ["$scope","$routeParams","$location","MovieService","paths",function($scope,$routeParams,$location,MovieService,paths){
+    ["$scope","$routeParams","$location","APIClient","paths",function($scope,$routeParams,$location,APIClient,paths){
         //scope init:"
         $scope.model = {};
         $scope.uiState = 'loading';
         //Controller init
         $scope.$emit("changeTitle","Loading...");
-        MovieService.getMovie($routeParams.id).then(
+        APIClient.getMovie($routeParams.id).then(
             //Pelicula encontrada:
             function(movie){
                 $scope.model = movie;
@@ -36214,7 +36214,7 @@ angular.module("moviedb")
     }]
 );
 ;angular.module("moviedb")
-    .controller("MoviesListController", ["$scope", "MovieService", "$log","paths","URL", function ($scope, MovieService, $log,paths,URL) {
+    .controller("MoviesListController", ["$scope", "APIClient", "$log","paths","URL", function ($scope,APIClient, $log,paths,URL) {
         //scope init:
         $scope.model = [];
         $scope.url = URL.resolve;
@@ -36225,7 +36225,7 @@ angular.module("moviedb")
        
         //Controller start:
         $scope.uiState = 'loading';
-        MovieService.getMovies().then(
+        APIClient.getMovies().then(
             //Promesa resuelta:
             function (data) {
                 $log.log("SUCCESS", data);
@@ -36244,6 +36244,17 @@ angular.module("moviedb")
             }
         );
     }]);
+;angular.module("moviedb").controller("SeriesListController", ["$scope", "APIClient",
+    function ($scope, APIClient) {
+
+    }]
+ );
+;angular.module("moviedb").directive("mediaItemList",function(){
+  return {
+      restrict:"AE",
+      templateUrl:"views/mediaItemList.html"
+  };  
+});
 ;angular.module("moviedb").filter("ago",
   [function(){
       return function(text){
@@ -36268,7 +36279,7 @@ angular.module("moviedb")
     }
     }]
 );
-;angular.module("moviedb").service("MovieService", ["$http","$q","apiPaths","URL",function ($http,$q,apiPaths,URL) {
+;angular.module("moviedb").service("APIClient", ["$http","$q","apiPaths","URL",function ($http,$q,apiPaths,URL) {
     this.apiRequest = function(url){
         //return
         //Crear el objeto difereido
@@ -36298,6 +36309,14 @@ angular.module("moviedb")
         var url = URL.resolve(apiPaths.movieDetail,{id:movieId});
         return this.apiRequest(url);
     }
+     this.getSeries = function () {
+        return this.apiRequest(apiPaths.series);
+       
+    };
+    this.getSerie = function(movieId){
+        var url = URL.resolve(apiPaths.serieDetail,{id:serieId});
+        return this.apiRequest(url);
+    }
 }]);
 ;angular.module("URL", []).service("URL", ["$log",function ($log) {
 
@@ -36325,7 +36344,9 @@ angular.module("moviedb")
 ]);
 ;angular.module("moviedb").value("apiPaths",{
     movies: "/api/movies/",
-    movieDetail: "/api/movies/:id"
+    movieDetail: "/api/movies/:id",
+    series: "/api/series/",
+    serieDetail: "/api/series/:id",
 });
 ;angular.module("moviedb").constant("paths", {
     home: "/",
