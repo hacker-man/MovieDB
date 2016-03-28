@@ -36255,7 +36255,7 @@ angular.module("moviedb")
       templateUrl:"views/mediaItemList.html",
       scope:{
           model:"=items",
-          getDetailUrl:"="
+          getDetailUrl:"&"
       }
   };  
 });
