@@ -2,8 +2,10 @@
 <html lang="es" ng-app = "moviedb" ng-controller="AppController">
 <head>
     <meta charset="UTF-8">
-    <title>{{model.title}}</title>
+    <title ng-bind-html="model.title">MovieDB</title>
     <link rel="stylesheet" href="dist/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">`
+
 </head>
 <body>
     <div ng-include="'views/Menu.html'"></div>

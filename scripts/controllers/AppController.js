@@ -6,7 +6,7 @@ angular.module("moviedb")
            controller.titles[paths.movies] = "Movies List";
            controller.titles[paths.series] = "Series List";
            controller.titles[paths.people] = "People List";
-    
+           
         $scope.model = {
             title: ""
         }
@@ -16,5 +16,8 @@ angular.module("moviedb")
             //console.log("$locationChangeSuccess",$location.path());
             //Se indexa titles con un string
             $scope.model.title = controller.titles[$location.path()] || "404 Not Found";
+        });
+        $scope.$on("changeTitle",function(evt,title){
+            $scope.model.title = title;
         });
     }]);
