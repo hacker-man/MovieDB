@@ -9,5 +9,5 @@
     </div>
     <div class="progress" ng-include='"views/ProgressBar.html"' ng-show="uiState == 'loading'">
     </div>
-    <media-item-list ng-show="uiState=='ideal'"></media-item-list>
+    <media-item-list items="model" get-detail-url="getMovieDetailURL" ng-show="uiState=='ideal'"></media-item-list>
 </div>

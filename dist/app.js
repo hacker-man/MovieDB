@@ -36252,7 +36252,11 @@ angular.module("moviedb")
 ;angular.module("moviedb").directive("mediaItemList",function(){
   return {
       restrict:"AE",
-      templateUrl:"views/mediaItemList.html"
+      templateUrl:"views/mediaItemList.html",
+      scope:{
+          model:"=items",
+          getDetailUrl:"="
+      }
   };  
 });
 ;angular.module("moviedb").filter("ago",
