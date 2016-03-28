@@ -36132,7 +36132,11 @@ angular.module("moviedb", ['ngRoute',"ngSanitize","URL"])
         $routeProvider.when(paths.movies, {
             templateUrl: 'views/MoviesList.html'
 		}).when(paths.movieDetail,{
-			templateUrl: 'views/MovieDetail.html'
+            controller:"MovieDetailController",
+			templateUrl: 'views/MediaItemDetail.html'
+        }).when(paths.serieDetail,{
+            controller:"SerieDetailController",
+            templateUrl: 'views/MediaItemDetail.html'
         }).when(paths.series, {
             templateUrl: 'views/SeriesList.html'
         }).when(paths.people,{
@@ -36244,6 +36248,28 @@ angular.module("moviedb")
             }
         );
     }]);
+;angular.module("moviedb").controller("SerieDetailController",
+    ["$scope","$routeParams","$location","APIClient","paths",function($scope,$routeParams,$location,APIClient,paths){
+        //scope init:"
+        $scope.model = {};
+        $scope.uiState = 'loading';
+        //Controller init
+        $scope.$emit("changeTitle","Loading...");
+        APIClient.getSerie($routeParams.id).then(
+            //Pelicula encontrada:
+            function(serie){
+                $scope.model = serie;
+                $scope.uiState = 'ideal';
+                $scope.$emit("changeTitle",$scope.model.title);
+            },
+            //Pelicula no encontrada:
+            function(error){
+                //TODO: improve error management
+                $location.url(paths.notFound);
+            }
+        );
+    }]
+);
 ;angular.module("moviedb").controller("SeriesListController", ["$scope", "APIClient", "$log","paths","URL", function ($scope,APIClient, $log,paths,URL) {
         //scope init:
         $scope.model = [];
@@ -36300,6 +36326,21 @@ angular.module("moviedb")
       };
   }]
 );
+;angular.module("moviedb").filter("join",
+  ["$log",function($log){
+      return function(arr,sep){
+          var items = arr || null;
+          if(items=null){
+              return "";
+          }
+          if(typeof arr.join === "undefined"){
+              $log.error("The value passed to the filter 'join' must be an array");
+              return "";
+          }
+          return arr.join(separator);
+      };
+  }]
+);
 ;angular.module("moviedb").filter("schoolrating", 
     [function(){
     return function(rating,mode){
@@ -36351,7 +36392,7 @@ angular.module("moviedb")
         return this.apiRequest(apiPaths.series);
        
     };
-    this.getSerie = function(movieId){
+    this.getSerie = function(serieId){
         var url = URL.resolve(apiPaths.serieDetail,{id:serieId});
         return this.apiRequest(url);
     }
