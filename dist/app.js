@@ -36244,11 +36244,45 @@ angular.module("moviedb")
             }
         );
     }]);
-;angular.module("moviedb").controller("SeriesListController", ["$scope", "APIClient",
-    function ($scope, APIClient) {
+;angular.module("moviedb").controller("SeriesListController", ["$scope", "APIClient", "$log","paths","URL", function ($scope,APIClient, $log,paths,URL) {
+        //scope init:
+        $scope.model = [];
+        $scope.url = URL.resolve;
+        //scope methods:
+        $scope.getSerieDetailURL = function(serie){
+            return URL.resolve(paths.serieDetail,{id:serie.id});
+        }
+       
+        //Controller start:
+        $scope.uiState = 'loading';
+        APIClient.getSeries().then(
+            //Promesa resuelta:
+            function (data) {
+                $log.log("SUCCESS", data);
+                $scope.model = data;
+                if ($scope.model.length == 0)
+                    $scope.uiState = 'blank'
+                else {
+                    $scope.uiState = 'ideal'
 
-    }]
- );
+                }
+            },
+            //Promesa rechazada:
+            function (data) {
+                $log.error("Error", data);
+                $scope.uiState = 'error';
+            }
+        );
+    }]);
+;angular.module("moviedb").directive("mediaItem",function(){
+    return{
+        restrict:"AE",
+        templateUrl:"views/mediaItem.html",
+        scope:{
+            model:"=item"
+        }
+    };
+});
 ;angular.module("moviedb").directive("mediaItemList",function(){
   return {
       restrict:"AE",
@@ -36356,6 +36390,7 @@ angular.module("moviedb")
     home: "/",
     movies: "/movies",
     movieDetail: "/movies/:id",
+    serieDetail: "/series/:id",
     series: "/series",
     people: "/people",
     notFound: "/sorry"
