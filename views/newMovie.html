@@ -1,6 +1,12 @@
-<div>
+<div ng-controller="MovieFormController">
     <h1>New movie</h1>
-    <form name="movieForm" class="form-horizontal" novalidate>
+    <div class="alert alert-success" ng-show="successMessage" ng-bind-html="successMessage">
+        {{successMessage}}
+    </div>
+    <div class="alert alert-danger" ng-show="errorMessage" ng-bind-html="successMessage">
+        {{successMessage}}
+    </div>
+    <form name="movieForm" class="form-horizontal" ng-submit="saveMovie()" novalidate>
         <div class="form-group" ng-class="{'has-success':movieForm.title.$valid,
            'has-error':movieForm.title.$invalid}">
             <label for="title" class="col-sm-2 control-label">Title</label>
@@ -59,7 +65,6 @@
                     The word "{{movieForm.overview.badword}}" is not allowed.
                 </div>
             </div>
-
         </div>
         <button class="btn btn-primary pull-right" type="submit" ng-disabled="movieForm.$invalid">Crear</button>
     </form>
