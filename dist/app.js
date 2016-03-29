@@ -36131,7 +36131,9 @@ angular.module("moviedb", ['ngRoute',"ngSanitize","URL"])
     .config(["$routeProvider","paths", function ($routeProvider,paths) {
         $routeProvider.when(paths.movies, {
             templateUrl: 'views/MoviesList.html'
-		}).when(paths.movieDetail,{
+		}).when(paths.newMovie,{
+			templateUrl: 'views/newMovie.html'
+        }).when(paths.movieDetail,{
             controller:"MovieDetailController",
 			templateUrl: 'views/MediaItemDetail.html'
         }).when(paths.serieDetail,{
@@ -36300,6 +36302,28 @@ angular.module("moviedb")
             }
         );
     }]);
+;angular.module("moviedb").directive("badwords", function () {
+    return {
+        require: 'ngModel',
+        link: function ($scope, elem, attrs, cntrl) {
+            var badwords = ["fuck", "shit"];
+            cntrl.$validators.badwords = function (modelValue, viewValue) {
+                // console.log("badwords", modelValue, viewValue);
+                var rawWords = modelValue || "";
+                var words = rawWords.split(" ");
+                for (var i in badwords) {
+                    var badword = badwords[i];
+                    if (words.indexOf(badword) >= 0) {
+                        cntrl.badword = badword;
+                        return false;
+                    }
+                }
+                cntrl.badword = "";
+                return true;
+            }
+        }
+    }
+});
 ;angular.module("moviedb").directive("mediaItem",function(){
     return{
         restrict:"AE",
@@ -36428,6 +36452,7 @@ angular.module("moviedb")
 ;angular.module("moviedb").constant("paths", {
     home: "/",
     movies: "/movies",
+    newMovie:"/movies/new",
     movieDetail: "/movies/:id",
     serieDetail: "/series/:id",
     series: "/series",

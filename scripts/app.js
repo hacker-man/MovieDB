@@ -3,7 +3,9 @@ angular.module("moviedb", ['ngRoute',"ngSanitize","URL"])
     .config(["$routeProvider","paths", function ($routeProvider,paths) {
         $routeProvider.when(paths.movies, {
             templateUrl: 'views/MoviesList.html'
-		}).when(paths.movieDetail,{
+		}).when(paths.newMovie,{
+			templateUrl: 'views/newMovie.html'
+        }).when(paths.movieDetail,{
             controller:"MovieDetailController",
 			templateUrl: 'views/MediaItemDetail.html'
         }).when(paths.serieDetail,{
