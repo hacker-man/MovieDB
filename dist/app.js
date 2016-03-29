@@ -36172,6 +36172,9 @@ angular.module("moviedb", ['ngRoute',"ngSanitize","URL"])
         $scope.$on("changeTitle",function(evt,title){
             $scope.model.title = title;
         });
+		$scope.$on("changeToForm",function(evt,title){
+			$scope.model.title = title;
+		});
     }]);
 ;//En el módulo moviedb, defino el controlador
 angular.module("moviedb")
@@ -36223,6 +36226,7 @@ angular.module("moviedb")
     //scope init
     $scope.model = {};
     //Scope methods
+	$scope.$emit("changeToForm","New Movie");
     $scope.saveMovie = function(){
         APIClient.createMovie($scope.model).then(
             function(movie){

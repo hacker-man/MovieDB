@@ -2,6 +2,7 @@ angular.module("moviedb").controller("MovieFormController",["$scope","APIClient"
     //scope init
     $scope.model = {};
     //Scope methods
+	$scope.$emit("changeToForm","New Movie");
     $scope.saveMovie = function(){
         APIClient.createMovie($scope.model).then(
             function(movie){

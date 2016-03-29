@@ -20,4 +20,7 @@ angular.module("moviedb")
         $scope.$on("changeTitle",function(evt,title){
             $scope.model.title = title;
         });
+		$scope.$on("changeToForm",function(evt,title){
+			$scope.model.title = title;
+		});
     }]);
